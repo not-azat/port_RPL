@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="serialio">
+    <CLASSES>
+      <root url="file://$MAVEN_REPOSITORY$/serialio" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

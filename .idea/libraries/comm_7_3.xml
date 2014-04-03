@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="comm-7.3">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/serialio/comm/7.3/comm-7.3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="serialPortPrinting:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/serialPortPrinting_jar</output-path>
+    <root id="archive" name="serialPortPrinting.jar">
+      <element id="module-output" name="serialPortPrinting" />
+      <element id="library" level="project" name="serialio" />
+      <element id="library" level="application" name="lib" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/serialio/serialio-linux/1.unknown/serialio-linux-1.unknown.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/serialio/comm/7.3/comm-7.3.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
