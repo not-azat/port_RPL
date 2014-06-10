@@ -10,6 +10,7 @@ public class EthernetPort implements Port {
     private OutputStream outputStream;
 
     EthernetPort(String host, int port) {
+        System.out.printf("EthernetPort to host %s, port %d\n", host, port);
         try {
             this.socket = new java.net.Socket(host, port);
             this.inputStream = socket.getInputStream();

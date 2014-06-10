@@ -13,10 +13,12 @@ public class Main {
                 CommPortIdentifier id = (CommPortIdentifier)e.nextElement();
                 System.out.println("Available: " + id.getName());
             }
-            Port p = new EthernetPort("localhost", 8767); // new SerialPort("COM8");
+            Port p = new EthernetPort("10.13.13.161", 1024);
+            //Port p = new EthernetServerPort(4444);
+            //Port p = new SerialPort("COM8");
             PortFeedbackLoop feedbackLoop = new DefaultPortFeedbackLoop();
             feedbackLoop.start(p.getInputStream());
-            UserInputLoop inputLoop = new ASCIIUserInputLoop(); //new HEXUserInputLoop();
+            UserInputLoop inputLoop = new HEXUserInputLoop(); //  new ASCIIUserInputLoop();
             inputLoop.start(p.getOutputStream()); // blocks forever
             p.close();
         } catch (Exception e) {

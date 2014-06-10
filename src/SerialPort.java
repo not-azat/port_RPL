@@ -22,8 +22,7 @@ public class SerialPort implements Port {
 
     /** open the serial port. */
     public SerialPort(final String name) throws IOException, PortInUseException, NoSuchPortException {
-        System.out.println("Port is found:" + name);
-
+        System.out.printf("SerialPort %s\n", name);
         CommPortIdentifier portId = CommPortIdentifier.getPortIdentifier(name);
         port = portId.open(this.toString(), 3000);
         outputStream = port.getOutputStream();
