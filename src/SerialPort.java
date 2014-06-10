@@ -10,7 +10,7 @@ import java.util.HashMap;
 /**
  * @author abdulvaliev
  */
-public class SerialPort {
+public class SerialPort implements Port {
 
     private CommPort port;
 
@@ -32,10 +32,21 @@ public class SerialPort {
         System.out.println("Port is opened:" + name);
     }
 
-    public boolean isOpen(final CommPortIdentifier portId){
-        return portId.getCurrentOwner() != null;
+//    public boolean isOpen(final CommPortIdentifier portId){
+//        return portId.getCurrentOwner() != null;
+//    }
+
+    @Override
+    public InputStream getInputStream() {
+        return inputStream;
     }
 
+    @Override
+    public OutputStream getOutputStream() {
+        return outputStream;
+    }
+
+    @Override
     public void close() throws IOException {
         if (port != null) {
             port.close();

@@ -13,12 +13,11 @@ public class Main {
                 CommPortIdentifier id = (CommPortIdentifier)e.nextElement();
                 System.out.println("Available: " + id.getName());
             }
-            SerialPort p = new SerialPort("COM3");
+            Port p = new EthernetPort("localhost", 8767); // new SerialPort("COM8");
             PortFeedbackLoop feedbackLoop = new DefaultPortFeedbackLoop();
-            feedbackLoop.start(p.inputStream);
-            UserInputLoop inputLoop = new HEXUserInputLoop();
-            //UserInputLoop inputLoop = new ASCIIUserInputLoop();
-            inputLoop.start(p.outputStream); // blocks forever
+            feedbackLoop.start(p.getInputStream());
+            UserInputLoop inputLoop = new ASCIIUserInputLoop(); //new HEXUserInputLoop();
+            inputLoop.start(p.getOutputStream()); // blocks forever
             p.close();
         } catch (Exception e) {
             System.out.println(e);
@@ -32,7 +31,6 @@ public class Main {
     static abstract class UserInputLoop {
         void start(OutputStream os) throws IOException {
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            sendBytes(getInitCommand(), os);
             while (true) {
                 System.out.print("> ");
                 String input = br.readLine();
@@ -47,12 +45,12 @@ public class Main {
         }
 
         abstract byte[] getBytesFromInputLine(String inputLine);
-        abstract byte[] getInitCommand();
     }
 
 
 
     static class ASCIIUserInputLoop extends UserInputLoop {
+
         byte[] getBytesFromInputLine(String inputLine) {
             try {
                 return inputLine.getBytes("US-ASCII");
@@ -61,11 +59,6 @@ public class Main {
                 throw new RuntimeException(e);
             }
         }
-
-        @Override
-        byte[] getInitCommand() {
-            return new byte[] {0x1c, 0x3c, 0x53, 0x56, 0x45, 0x4C, 0x3E};
-        }
     }
 
 
@@ -73,16 +66,6 @@ public class Main {
     static class HEXUserInputLoop extends UserInputLoop {
         byte[] getBytesFromInputLine(String inputLine) {
             return hexStringToByteArray(inputLine);
-        }
-
-        @Override
-        byte[] getInitCommand() {
-            try {
-                return "<EPOS>".getBytes("US-ASCII");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
         }
 
         public static byte[] hexStringToByteArray(String s) {
@@ -150,7 +133,9 @@ public class Main {
     }
 
 
-
+    /**
+     * Output as hex and as text (in default encoding).
+     */
     static class DefaultPortFeedbackLoop extends PortFeedbackLoop {
         @Override
         String interpretFeedbackBytes(char[] bytes) {
