@@ -1,1 +1,0 @@
-java -Dos.name="Windows XP" -Dos.arch="x86" -Djava.library.path="./lib/" -jar serialPortPrinting.jar 
