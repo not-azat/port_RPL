@@ -4,21 +4,31 @@ import java.util.Enumeration;
 
 public class Main {
 
+    /**
+     * Possible configuration parameters:
+     *   HEX SERIAL COM9
+     *   ASCII TCP 127.0.0.1 4000
+     *   HEX TCPSERVER 4000
+     */
     public static void main(String[] args) {
         try {
             System.out.println("Start");
             System.out.println("sun.arch.data.model: " + System.getProperty("sun.arch.data.model"));
-            Enumeration e = CommPortIdentifier.getPortIdentifiers();
-            while (e.hasMoreElements()) {
-                CommPortIdentifier id = (CommPortIdentifier)e.nextElement();
-                System.out.println("Available: " + id.getName());
+
+            Configurator configurator = new Configurator(args);
+            Port p = configurator.getPort();
+            UserInputLoop inputLoop = configurator.getUserInputLoop();
+
+            if (p instanceof SerialPort) {
+                Enumeration e = CommPortIdentifier.getPortIdentifiers();
+                while (e.hasMoreElements()) {
+                    CommPortIdentifier id = (CommPortIdentifier) e.nextElement();
+                    System.out.println("Available: " + id.getName());
+                }
             }
-            Port p = new EthernetPort("10.13.13.161", 1024);
-            //Port p = new EthernetServerPort(4444);
-            //Port p = new SerialPort("COM8");
+
             PortFeedbackLoop feedbackLoop = new DefaultPortFeedbackLoop();
             feedbackLoop.start(p.getInputStream());
-            UserInputLoop inputLoop = new HEXUserInputLoop(); //  new ASCIIUserInputLoop();
             inputLoop.start(p.getOutputStream()); // blocks forever
             p.close();
         } catch (Exception e) {
